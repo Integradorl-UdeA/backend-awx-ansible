@@ -1,0 +1,33 @@
+pluginManagement {
+    repositories {
+        mavenCentral()
+        maven {
+            url = uri("https://company/com/maven2")
+        }
+        flatDir {
+            dirs "libs"
+        }
+        gradlePluginPortal()
+    }
+}
+
+rootProject.name = 'ConsoleLisAwx'
+
+include ':app-service'
+include ':model'
+include ':usecase'
+project(':app-service').projectDir = file('./applications/app-service')
+project(':model').projectDir = file('./domain/model')
+project(':usecase').projectDir = file('./domain/usecase')
+include ':awx-api'
+project(':awx-api').projectDir = file('./infrastructure/driven-adapters/awx-api')
+include ':reactive-web'
+project(':reactive-web').projectDir = file('./infrastructure/entry-points/reactive-web')
+include ':api-rest'
+project(':api-rest').projectDir = file('./infrastructure/entry-points/api-rest')
+include ':weblient'
+project(':weblient').projectDir = file('./infrastructure/driven-adapters/weblient')
+include ':web-client'
+project(':web-client').projectDir = file('./infrastructure/driven-adapters/web-client')
+include ':webclient'
+project(':webclient').projectDir = file('./infrastructure/driven-adapters/webclient')

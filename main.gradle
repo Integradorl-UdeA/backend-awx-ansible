@@ -1,0 +1,69 @@
+apply plugin: 'info.solidsoft.pitest.aggregator'
+
+allprojects {
+    repositories {
+        mavenCentral()
+        maven { url "https://repo.spring.io/snapshot" }
+        maven { url "https://repo.spring.io/milestone" }
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'jacoco'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'info.solidsoft.pitest'
+
+    compileJava.dependsOn validateStructure
+
+    // Mover sourceCompatibility dentro del bloque `java { }`
+    java {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    // build.dependsOn 'pitest'
+
+    test {
+        useJUnitPlatform()
+    }
+
+    dependencies {
+        implementation 'io.projectreactor:reactor-core'
+        implementation 'io.projectreactor.addons:reactor-extra'
+
+        testImplementation 'io.projectreactor.tools:blockhound-junit-platform:1.0.9.RELEASE'
+        testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+        testImplementation 'io.projectreactor:reactor-test'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+        compileOnly "org.projectlombok:lombok:${lombokVersion}"
+        annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+        testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+        testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+        implementation platform("org.springframework.boot:spring-boot-dependencies:${springBootVersion}")
+    }
+
+    tasks.withType(Test).configureEach {
+        if (JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_13)) {
+            jvmArgs += [
+                    "-XX:+AllowRedefinitionToAddDeleteMethods"
+            ]
+        }
+    }
+
+    test.finalizedBy(project.tasks.jacocoTestReport)
+
+    pitest {
+        targetClasses = ['co.com.cosole.lis.awx.*']
+        excludedClasses = []
+        excludedTestClasses = []
+        verbose = true
+        outputFormats = ['XML', 'HTML']
+        threads = 8
+        exportLineCoverage = true
+        timestampedReports = false
+        fileExtensionsToFilter.addAll('xml', 'orbit')
+
+    }
+}
