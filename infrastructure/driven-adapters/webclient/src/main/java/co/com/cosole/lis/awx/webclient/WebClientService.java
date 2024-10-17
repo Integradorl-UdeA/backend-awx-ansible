@@ -4,9 +4,6 @@ package co.com.cosole.lis.awx.webclient;
 
 import co.com.cosole.lis.awx.model.awxjobresult.AWXJobResult;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;

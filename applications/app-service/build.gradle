@@ -2,10 +2,9 @@ apply plugin: 'org.springframework.boot'
 
 dependencies {
 	testImplementation 'org.springframework:spring-web'
-	implementation project(':api-rest')
-    implementation project(':webclient')
     implementation project(':model')
     implementation project(':usecase')
+    implementation project(':webclient')
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
     implementation 'org.springframework.boot:spring-boot-starter'
     runtimeOnly('org.springframework.boot:spring-boot-devtools')

@@ -3,30 +3,29 @@ package co.com.cosole.lis.awx.usecase.launchplaybook;
 
 import co.com.cosole.lis.awx.model.hoststatus.HostStatus;
 import co.com.cosole.lis.awx.model.summary.Summary;
-import co.com.cosole.lis.awx.usecase.launchplaybook.services.GetJobLogsUseCase;
 import co.com.cosole.lis.awx.webclient.WebClientService;
 import lombok.AllArgsConstructor;
 
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
-@Service
+
 @AllArgsConstructor
-public class GetJobLogsUseCaseImpl implements GetJobLogsUseCase {
+public class GetJobLogsUseCase {
 
     private final WebClientService webClientService;
 
-    @Override
+
     public Mono<Summary> execute(Integer jobId) {
         return webClientService.getJobLogs(jobId)
-                .flatMap(logs -> Mono.just(parseLogs(logs))) // Cambiamos a flatMap y envolvemos el resultado en Mono
+                .flatMap(logs -> Mono.just(parseLogs(logs)))
                 .defaultIfEmpty(new Summary());
     }
 
     private Summary parseLogs(String logs) {
         Summary summary = new Summary();
 
-<<        String[] lines = logs.split("\n");
+        String[] lines = logs.split("\n");
         for (String line : lines) {
             if (line.startsWith("PLAY RECAP")) {
                 continue;
