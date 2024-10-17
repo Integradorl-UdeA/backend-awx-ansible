@@ -1,12 +1,8 @@
 apply plugin: 'org.springframework.boot'
 
 dependencies {
-	implementation project(':webclient')
-	implementation project(':web-client')
 	testImplementation 'org.springframework:spring-web'
 	implementation project(':api-rest')
-	implementation project(':reactive-web')
-	implementation project(':awx-api')
     implementation project(':webclient')
     implementation project(':model')
     implementation project(':usecase')
