@@ -9,7 +9,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.reactive.ClientHttpConnector;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
+import org.springframework.web.reactive.function.client.ClientRequest;
+import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 import reactor.netty.http.client.HttpClient;
 
 import javax.net.ssl.SSLException;
@@ -18,8 +21,12 @@ import java.util.concurrent.TimeUnit;
 @Configuration
 public class WebClientConfig {
 
-    @Value("${webclient.baseurl}")
-    private String BASE_URL;
+    @Value("${webclient.base-url}")
+    private String baseUrl;
+
+    @Value("${webclient.token}")
+    private String token;
+
     private static final int BYTE_COUNT = 1024*16*1024;
 
     @Bean
@@ -28,7 +35,9 @@ public class WebClientConfig {
                 .codecs(configurer -> configurer.defaultCodecs()
                         .maxInMemorySize(BYTE_COUNT))
                 .clientConnector(getClientHttpConnector())
-                .baseUrl(BASE_URL).build();
+                .baseUrl(baseUrl)
+                .filter(bearerAuthFilter())
+                .build();
 
 
     }
@@ -44,5 +53,15 @@ public class WebClientConfig {
                 });
 
         return new ReactorClientHttpConnector(httpClient);
+    }
+
+    private ExchangeFilterFunction bearerAuthFilter() {
+        return ExchangeFilterFunction.ofRequestProcessor(clientRequest ->
+                Mono.just(
+                        ClientRequest.from(clientRequest)
+                                .header("Authorization", "Bearer " + token)
+                                .build()
+                )
+        );
     }
 }

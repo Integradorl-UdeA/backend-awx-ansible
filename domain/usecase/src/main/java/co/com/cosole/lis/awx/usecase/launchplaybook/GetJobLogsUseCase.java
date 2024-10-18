@@ -1,23 +1,23 @@
 package co.com.cosole.lis.awx.usecase.launchplaybook;
 
 
+import co.com.cosole.lis.awx.model.gateway.JobAwxGateway;
 import co.com.cosole.lis.awx.model.hoststatus.HostStatus;
 import co.com.cosole.lis.awx.model.summary.Summary;
-import co.com.cosole.lis.awx.webclient.WebClientService;
 import lombok.AllArgsConstructor;
 
-import org.springframework.stereotype.Service;
+
 import reactor.core.publisher.Mono;
 
 
 @AllArgsConstructor
 public class GetJobLogsUseCase {
 
-    private final WebClientService webClientService;
+    private final JobAwxGateway jobAwxGateway;
 
 
     public Mono<Summary> execute(Integer jobId) {
-        return webClientService.getJobLogs(jobId)
+        return jobAwxGateway.getJobLogs(jobId)
                 .flatMap(logs -> Mono.just(parseLogs(logs)))
                 .defaultIfEmpty(new Summary());
     }

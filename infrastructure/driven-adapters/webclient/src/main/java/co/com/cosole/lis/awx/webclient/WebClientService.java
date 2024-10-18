@@ -3,6 +3,7 @@ package co.com.cosole.lis.awx.webclient;
 
 
 import co.com.cosole.lis.awx.model.awxjobresult.AWXJobResult;
+import co.com.cosole.lis.awx.model.gateway.JobAwxGateway;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
@@ -15,21 +16,22 @@ import java.time.LocalDateTime;
 @Log4j2
 @AllArgsConstructor
 @Service
-public class WebClientService {
+public class WebClientService implements JobAwxGateway {
 
     private final WebClient webClient;
     private static HttpStatus statusCode;
 
+    @Override
     public Mono<AWXJobResult> launchJob(Integer jobTemplateId) {
         return webClient.post()
                 .uri("job_templates/{jobTemplateId}/launch/", jobTemplateId)
                 .retrieve()
                 .bodyToMono(AWXJobResult.class)
-                .doFirst(() -> log.info("Iniciando el Job {}", LocalDateTime.now()))
-                ;
+                .doFirst(() -> log.info("Iniciando el Job a las {} ", LocalDateTime.now()));
     }
 
-    public Mono<String> getJobLogs(int jobId) {
+    @Override
+    public Mono<String> getJobLogs(Integer jobId) {
         return webClient.get()
                 .uri("jobs/{jobId}/stdout/", jobId)
                 .retrieve()
@@ -41,4 +43,6 @@ public class WebClientService {
                 .retry(3)
                 .doFirst(() -> log.info("Obteniendo logs del job {}", jobId));
     }
+
+
 }

@@ -3,19 +3,19 @@ server:
 spring:
   application:
     name: "ConsoleLisAwx"
-  devtools:
-    add-properties: false
-  h2:
-    console:
-      enabled: true
-      path: "/h2"
-  profiles:
-    include: null
+  main:
+    web-application-type: "reactive"
+  webflux:
+    base-path: "/api/v2/console-awx"
+logging:
+  level:
+    root: info
 management:
   endpoints:
     web:
       exposure:
-        include: "health,prometheus"
+        include: "health, info"
+      base-path: "/actuator"
   endpoint:
     health:
       probes:
@@ -24,4 +24,5 @@ cors:
   allowed-origins: "http://localhost:4200,http://localhost:8080"
 
 webclient:
-  bass-url: "http://192.168.30.33:10445/api/v2/"
+  token: "TxjPB80DAR0DvtKVmG8M8rP0BIsJ88"
+  base-url: "http://192.168.30.33:10445/api/v2/"
