@@ -32,7 +32,8 @@ public class GetLogAndLaunchUseCase {
 
     private Mono<Summary> handleNoLogs(int jobId, int attempts) {
         if (attempts < MAX_RETRIES) {
-            log.info("No logs available yet for jobId "+  jobId + "Retrying ..." + attempts + 1 + "/" +MAX_RETRIES);
+
+            log.info("No logs available yet for jobId "+  jobId + "Retrying ..." + (attempts + 1) + "/" +MAX_RETRIES);
             return Mono.delay(RETRY_INTERVAL)  // Espera antes de reintentar
                     .flatMap(aLong -> pollForLogs(jobId, attempts + 1));
         } else {
