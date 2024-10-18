@@ -9,12 +9,12 @@ spring:
     base-path: "/api/v2/console-awx"
 logging:
   level:
-    root: info
+    root: "info"
 management:
   endpoints:
     web:
       exposure:
-        include: "health, info"
+        include: "health,prometheus"
       base-path: "/actuator"
   endpoint:
     health:
@@ -22,7 +22,6 @@ management:
         enabled: true
 cors:
   allowed-origins: "http://localhost:4200,http://localhost:8080"
-
 webclient:
   token: "TxjPB80DAR0DvtKVmG8M8rP0BIsJ88"
   base-url: "http://192.168.30.33:10445/api/v2/"

@@ -10,7 +10,7 @@ public class LaunchPlaybookUseCase {
 
     private final JobAwxGateway jobAwxGateway;
 
-    public Mono<AWXJobResult> execute(Integer jobTemplateId) {
+    public Mono<AWXJobResult> execute(int jobTemplateId) {
         return jobAwxGateway.launchJob(jobTemplateId);
     }
 }

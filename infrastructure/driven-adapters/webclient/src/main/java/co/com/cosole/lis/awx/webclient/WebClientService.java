@@ -22,7 +22,7 @@ public class WebClientService implements JobAwxGateway {
     private static HttpStatus statusCode;
 
     @Override
-    public Mono<AWXJobResult> launchJob(Integer jobTemplateId) {
+    public Mono<AWXJobResult> launchJob(int jobTemplateId) {
         return webClient.post()
                 .uri("job_templates/{jobTemplateId}/launch/", jobTemplateId)
                 .retrieve()
@@ -31,9 +31,9 @@ public class WebClientService implements JobAwxGateway {
     }
 
     @Override
-    public Mono<String> getJobLogs(Integer jobId) {
+    public Mono<String> getJobLogs(int jobId) {
         return webClient.get()
-                .uri("jobs/{jobId}/stdout/", jobId)
+                .uri("jobs/{jobId}/stdout/?format=txt_download", jobId)
                 .retrieve()
                 .onStatus(status -> status.is4xxClientError() || status.is5xxServerError(), response -> {
                     return response.bodyToMono(String.class)

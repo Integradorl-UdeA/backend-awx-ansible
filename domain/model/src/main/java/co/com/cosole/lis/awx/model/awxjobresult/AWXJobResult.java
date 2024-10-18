@@ -12,7 +12,7 @@ import lombok.Setter;
 @Builder(toBuilder = true)
 public class AWXJobResult {
 
-    private Integer jobId;
+    private Integer job;
     private String type;
     private String url;
 }
