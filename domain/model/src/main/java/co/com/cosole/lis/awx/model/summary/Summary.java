@@ -11,7 +11,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Builder(toBuilder = true)
 public class Summary {
-    private List<HostStatus> successfulHosts = new ArrayList<>();
-    private List<HostStatus> failedHosts = new ArrayList<>();
+    private List<String> successfulHosts = new ArrayList<>();
+    private List<String> failedHosts = new ArrayList<>();
 
 }

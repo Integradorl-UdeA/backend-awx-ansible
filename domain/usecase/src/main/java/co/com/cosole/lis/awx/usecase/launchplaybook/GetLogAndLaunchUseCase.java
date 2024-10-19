@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 @AllArgsConstructor
 public class GetLogAndLaunchUseCase {
     private final JobAwxGateway jobAwxGateway;
-    private final static int MAX_RETRIES = 4;  // Número máximo de intentos
+    private final static int MAX_RETRIES = 4;
     private final static Duration RETRY_INTERVAL = Duration.ofSeconds(15);
 
     public Mono<Summary> execute(int jobTemplateId) {
@@ -34,11 +34,11 @@ public class GetLogAndLaunchUseCase {
         if (attempts < MAX_RETRIES) {
 
             log.info("No logs available yet for jobId "+  jobId + "Retrying ..." + (attempts + 1) + "/" +MAX_RETRIES);
-            return Mono.delay(RETRY_INTERVAL)  // Espera antes de reintentar
+            return Mono.delay(RETRY_INTERVAL)
                     .flatMap(aLong -> pollForLogs(jobId, attempts + 1));
         } else {
             log.info("Max retries reached for jobId "+ jobId+  " Returning empty summary.");
-            return Mono.just(new Summary());  // Devuelve un resumen vacío si se alcanzan los intentos máximos
+            return Mono.just(new Summary());
         }
     }
 
@@ -58,14 +58,11 @@ public class GetLogAndLaunchUseCase {
             if (playRecapFound) {
                 Matcher matcher = pattern.matcher(line);
                 if (matcher.find()) {
-                    HostStatus hostStatus = HostStatus.builder()
-                            .host(matcher.group(1))
-                            .ok(Integer.parseInt(matcher.group(2)))
-                            .build();
-                    if (hostStatus.getOk() > 0) {
-                        summary.getSuccessfulHosts().add(hostStatus);
+                    System.out.printf("asd "+ matcher);
+                    if (Integer.parseInt(matcher.group(2))> 0) {
+                        summary.getSuccessfulHosts().add(matcher.group(1));
                     } else {
-                        summary.getFailedHosts().add(hostStatus);
+                        summary.getFailedHosts().add(matcher.group(1));
                     }
                 }
             }

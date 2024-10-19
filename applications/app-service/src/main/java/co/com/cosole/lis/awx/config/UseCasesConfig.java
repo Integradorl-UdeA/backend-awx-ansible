@@ -2,6 +2,7 @@ package co.com.cosole.lis.awx.config;
 
 import co.com.cosole.lis.awx.model.awxjobresult.AWXJobResult;
 import co.com.cosole.lis.awx.model.gateway.JobAwxGateway;
+import co.com.cosole.lis.awx.usecase.launchplaybook.GetGroupInventoryLisUseCase;
 import co.com.cosole.lis.awx.usecase.launchplaybook.GetJobLogsUseCase;
 import co.com.cosole.lis.awx.usecase.launchplaybook.GetLogAndLaunchUseCase;
 import co.com.cosole.lis.awx.usecase.launchplaybook.LaunchPlaybookUseCase;
@@ -34,6 +35,11 @@ public class UseCasesConfig {
         @Bean
         public GetLogAndLaunchUseCase getLogAndLaunchUseCase(JobAwxGateway jobAwxGateway){
                 return new GetLogAndLaunchUseCase(jobAwxGateway);
+        }
+
+        @Bean
+        public GetGroupInventoryLisUseCase getGroupInventoryLisUseCase(JobAwxGateway jobAwxGateway){
+                return new GetGroupInventoryLisUseCase(jobAwxGateway);
         }
 
 }

@@ -4,6 +4,7 @@ package co.com.cosole.lis.awx.webclient;
 
 import co.com.cosole.lis.awx.model.awxjobresult.AWXJobResult;
 import co.com.cosole.lis.awx.model.gateway.JobAwxGateway;
+import co.com.cosole.lis.awx.model.inventories.GroupsInventories;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Log4j2
 @AllArgsConstructor
@@ -28,6 +30,15 @@ public class WebClientService implements JobAwxGateway {
                 .retrieve()
                 .bodyToMono(AWXJobResult.class)
                 .doFirst(() -> log.info("Iniciando el Job a las {} ", LocalDateTime.now()));
+    }
+
+    @Override
+    public Mono<GroupsInventories> getGroupInventoryLis() {
+        return webClient.get()
+                .uri("inventories/2/groups/")
+                .retrieve()
+                .bodyToMono(GroupsInventories.class)
+                .doFirst(() -> log.info("Iniciando listar grupos inventario lis a las {} ", LocalDateTime.now()));
     }
 
     @Override
