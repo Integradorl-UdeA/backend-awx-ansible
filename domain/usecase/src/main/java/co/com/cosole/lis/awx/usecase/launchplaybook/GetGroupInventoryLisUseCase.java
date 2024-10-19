@@ -12,8 +12,11 @@ public class GetGroupInventoryLisUseCase {
 
     private final JobAwxGateway jobAwxGateway;
 
+
     public Mono<GroupsInventories> execute(){
         return jobAwxGateway.getGroupInventoryLis();
     }
+
+
 
 }

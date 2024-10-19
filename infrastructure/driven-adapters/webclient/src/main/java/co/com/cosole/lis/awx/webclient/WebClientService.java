@@ -5,6 +5,8 @@ package co.com.cosole.lis.awx.webclient;
 import co.com.cosole.lis.awx.model.awxjobresult.AWXJobResult;
 import co.com.cosole.lis.awx.model.gateway.JobAwxGateway;
 import co.com.cosole.lis.awx.model.inventories.GroupsInventories;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
@@ -34,12 +36,25 @@ public class WebClientService implements JobAwxGateway {
 
     @Override
     public Mono<GroupsInventories> getGroupInventoryLis() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         return webClient.get()
                 .uri("inventories/2/groups/")
                 .retrieve()
-                .bodyToMono(GroupsInventories.class)
+                .bodyToMono(String.class)
+                .flatMap(response -> {
+                    try {
+                        GroupsInventories groupsInventories= objectMapper.readValue(response, GroupsInventories.class);
+                        log.info("Resultado mapeado: {}", groupsInventories);
+                        return Mono.just(groupsInventories);
+                    } catch (Exception e) {
+                        log.error("Error al mapear la respuesta", e);
+                        return Mono.error(new RuntimeException("Error al mapear la respuesta a GroupsInventories", e));
+                    }
+                })
                 .doFirst(() -> log.info("Iniciando listar grupos inventario lis a las {} ", LocalDateTime.now()));
     }
+
 
     @Override
     public Mono<String> getJobLogs(int jobId) {

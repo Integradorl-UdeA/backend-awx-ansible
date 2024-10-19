@@ -11,4 +11,5 @@ public interface JobAwxGateway {
     Mono<AWXJobResult> launchJob(int jobTemplateId);
     Mono<GroupsInventories> getGroupInventoryLis();
 
+
 }
