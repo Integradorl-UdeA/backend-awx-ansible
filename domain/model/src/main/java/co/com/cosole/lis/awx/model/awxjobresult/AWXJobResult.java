@@ -1,15 +1,12 @@
 package co.com.cosole.lis.awx.model.awxjobresult;
-import lombok.Builder;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
+@ToString
 public class AWXJobResult {
 
     private Integer job;

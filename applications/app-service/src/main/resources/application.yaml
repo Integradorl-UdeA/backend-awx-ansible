@@ -25,4 +25,3 @@ cors:
 webclient:
   token: "TxjPB80DAR0DvtKVmG8M8rP0BIsJ88"
   base-url: "http://192.168.30.33:10445/api/v2/"
-

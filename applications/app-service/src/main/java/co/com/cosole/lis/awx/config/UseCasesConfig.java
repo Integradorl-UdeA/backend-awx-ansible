@@ -2,10 +2,7 @@ package co.com.cosole.lis.awx.config;
 
 import co.com.cosole.lis.awx.model.awxjobresult.AWXJobResult;
 import co.com.cosole.lis.awx.model.gateway.JobAwxGateway;
-import co.com.cosole.lis.awx.usecase.launchplaybook.GetGroupInventoryLisUseCase;
-import co.com.cosole.lis.awx.usecase.launchplaybook.GetJobLogsUseCase;
-import co.com.cosole.lis.awx.usecase.launchplaybook.GetLogAndLaunchUseCase;
-import co.com.cosole.lis.awx.usecase.launchplaybook.LaunchPlaybookUseCase;
+import co.com.cosole.lis.awx.usecase.launchplaybook.*;
 import co.com.cosole.lis.awx.webclient.WebClientService;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,6 +37,10 @@ public class UseCasesConfig {
         @Bean
         public GetGroupInventoryLisUseCase getGroupInventoryLisUseCase(JobAwxGateway jobAwxGateway){
                 return new GetGroupInventoryLisUseCase(jobAwxGateway);
+        }
+        @Bean
+        public GetJobEventsUseCase getJobEventsUseCase(JobAwxGateway jobAwxGateway){
+                return new GetJobEventsUseCase(jobAwxGateway);
         }
 
 }

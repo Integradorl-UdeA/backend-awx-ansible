@@ -8,8 +8,9 @@ import java.util.List;
 
 public interface JobAwxGateway {
     Mono<String> getJobLogs(int jobId);
-    Mono<AWXJobResult> launchJob(int jobTemplateId);
+    Mono<AWXJobResult> launchJob(int jobTemplateId, String limit);
     Mono<GroupsInventories> getGroupInventoryLis();
+    Mono<String> getJobStatus(int jobId);
 
 
 }

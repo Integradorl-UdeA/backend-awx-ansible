@@ -13,8 +13,8 @@ plugins {
 	id 'co.com.bancolombia.cleanArchitecture' version "${cleanArchitectureVersion}"
 	id 'org.springframework.boot' version "${springBootVersion}" apply false
 	id 'info.solidsoft.pitest' version "${pitestVersion}" apply false
-	id 'org.sonarqube' version "${sonarVersion}"
 	id 'jacoco'
+    id "org.sonarqube" version "5.1.0.4882"
 }
 
 
@@ -38,6 +38,9 @@ sonar {
         property "sonar.java.coveragePlugin", "jacoco"
         property "sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacocoMergedReport/jacocoMergedReport.xml"
         property "sonar.externalIssuesReportPaths", "build/issues.json"
+        property "sonar.projectKey", "Integradorl-UdeA_backend-awx-ansible"
+        property "sonar.organization", "integradorl-udea"
+        property "sonar.host.url", "https://sonarcloud.io"
     }
 }
 
