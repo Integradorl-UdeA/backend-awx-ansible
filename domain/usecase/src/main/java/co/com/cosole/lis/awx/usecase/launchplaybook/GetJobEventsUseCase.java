@@ -13,7 +13,6 @@ public class GetJobEventsUseCase {
     private final JobAwxGateway jobAwxGateway;
 
     public Mono<String> execute(int jobId) {
-        return jobAwxGateway.getJobStatus(jobId)
-                .doOnSuccess(hola -> System.out.println("respuesta  " + hola));
+        return jobAwxGateway.getJobStatus(jobId);
     }
 }
