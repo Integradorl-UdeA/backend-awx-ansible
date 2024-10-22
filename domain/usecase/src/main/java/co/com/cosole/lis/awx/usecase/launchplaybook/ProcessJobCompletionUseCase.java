@@ -29,9 +29,9 @@ public class ProcessJobCompletionUseCase {
             String ip = host.getKey();
             HostsStatus status = host.getValue();
             if (status.isFailed()) {
-                summary.getSuccessfulHosts().add(ip);
-            } else {
                 summary.getFailedHosts().add(ip);
+            } else {
+                summary.getSuccessfulHosts().add(ip);
             }
 
         }
