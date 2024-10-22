@@ -1,5 +1,6 @@
 server:
   port: 8080
+  address: 0.0.0.0
 spring:
   application:
     name: "ConsoleLisAwx"
@@ -21,7 +22,7 @@ management:
       probes:
         enabled: true
 cors:
-  allowed-origins: "http://localhost:4200,http://localhost:8080"
+  allowed-origins: "http://localhost:4200,http://localhost:8080, http://192.168.30.33:10445"
 webclient:
   token: "TxjPB80DAR0DvtKVmG8M8rP0BIsJ88"
   base-url: "http://192.168.30.33:10445/api/v2/"

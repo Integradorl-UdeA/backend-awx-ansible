@@ -3,6 +3,7 @@ package co.com.cosole.lis.awx.webclient;
 
 
 import co.com.cosole.lis.awx.model.awxjobresult.AWXJobResult;
+import co.com.cosole.lis.awx.model.awxjobresult.JobCompletationNotification;
 import co.com.cosole.lis.awx.model.extravars.RequestBodyWhitExtraVars;
 import co.com.cosole.lis.awx.model.gateway.JobAwxGateway;
 import co.com.cosole.lis.awx.model.inventories.GroupsInventories;
@@ -84,6 +85,7 @@ public class WebClientService implements JobAwxGateway {
                     }
                 });
     }
+
 
 
     @Override

@@ -18,6 +18,10 @@ public class UseCasesConfig {
                 return new GetJobLogsUseCase(jobAwxGateway);
         }
 
+        @Bean
+        public ProcessJobCompletionUseCase processJobCompletionUseCase(JobAwxGateway jobAwxGateway){
+                return new ProcessJobCompletionUseCase();
+        }
 
         @Bean
         @Primary

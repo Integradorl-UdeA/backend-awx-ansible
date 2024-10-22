@@ -1,13 +1,11 @@
 package co.com.cosole.lis.awx.api;
 
+import co.com.cosole.lis.awx.model.awxjobresult.JobCompletationNotification;
 import co.com.cosole.lis.awx.model.extravars.RequestBodyWhitExtraVars;
 import co.com.cosole.lis.awx.model.inventories.ExtraVarsGroup;
 import co.com.cosole.lis.awx.model.inventories.GroupsInventories;
 import co.com.cosole.lis.awx.model.summary.Summary;
-import co.com.cosole.lis.awx.usecase.launchplaybook.GetGroupInventoryLisUseCase;
-import co.com.cosole.lis.awx.usecase.launchplaybook.GetJobEventsUseCase;
-import co.com.cosole.lis.awx.usecase.launchplaybook.GetJobLogsUseCase;
-import co.com.cosole.lis.awx.usecase.launchplaybook.GetLogAndLaunchUseCase;
+import co.com.cosole.lis.awx.usecase.launchplaybook.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.MediaType;
@@ -28,6 +26,7 @@ public class ApiRest {
     private final GetLogAndLaunchUseCase getLogAndLaunchUseCase;
     private final GetGroupInventoryLisUseCase getGroupInventoryLisUseCase;
     private final GetJobEventsUseCase getJobEventsUseCase;
+    private final ProcessJobCompletionUseCase processJobCompletionUseCase;
 
     private static final int JOB_TEMPLATE_PING = 9;
 
@@ -64,6 +63,17 @@ public class ApiRest {
                 .map(ResponseEntity::ok);
     }
 
+    @PostMapping("/jobCompleted")
+    public Mono<ResponseEntity<Summary>> jobCompleted(@RequestBody JobCompletationNotification notification) {
+        log.info("Webhook recibido para el job: " + notification.getId());
+        log.info("este es {} ", notification.toString());
+        return  processJobCompletionUseCase.summaryJobs(notification)
+                .map(ResponseEntity::ok);
+
+    }
+
 
 }
+
+
 
