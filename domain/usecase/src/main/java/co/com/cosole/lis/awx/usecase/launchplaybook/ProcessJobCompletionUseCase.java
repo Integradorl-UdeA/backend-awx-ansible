@@ -24,7 +24,6 @@ public class ProcessJobCompletionUseCase {
     public Mono<Summary> summaryJobs(JobCompletationNotification jobCompletationNotification) {
         Summary summary = new Summary();
         Map<String, HostsStatus> hostsStatus = jobCompletationNotification.getHosts();
-        log.info("esta parte " + hostsStatus);
 
         for (Map.Entry<String, HostsStatus> host : hostsStatus.entrySet()) {
             String ip = host.getKey();
@@ -34,8 +33,9 @@ public class ProcessJobCompletionUseCase {
             } else {
                 summary.getFailedHosts().add(ip);
             }
-            System.out.println("IP: " + ip + ", Failed: " + status.isFailed());
+
         }
+        log.info("resumen de la ejecución" + summary);
         return Mono.just(summary);
     }
 

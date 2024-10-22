@@ -39,8 +39,6 @@ public class ApiRest {
     }
 
 
-
-
     @PostMapping(path ="/ping/launch")
     public Mono<ResponseEntity<Summary>> lunchAndLogPing(@RequestBody RequestBodyWhitExtraVars requestBody) {
         LocalDateTime startTime = LocalDateTime.now();
@@ -67,7 +65,6 @@ public class ApiRest {
     @PostMapping("/jobCompleted")
     public Mono<ResponseEntity<Summary>> jobCompleted(@RequestBody JobCompletationNotification notification) {
         log.info("Webhook recibido para el job: " + notification.getId());
-        log.info("este es {} ", notification.toString());
         return  processJobCompletionUseCase.summaryJobs(notification)
                 .map(ResponseEntity::ok);
 
