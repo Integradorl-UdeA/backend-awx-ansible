@@ -10,6 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Builder(toBuilder = true)
+@ToString
 public class Summary {
     private List<String> successfulHosts = new ArrayList<>();
     private List<String> failedHosts = new ArrayList<>();
