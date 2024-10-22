@@ -1,5 +1,6 @@
 package co.com.cosole.lis.awx.api;
 
+import co.com.cosole.lis.awx.model.awxjobresult.AWXJobResult;
 import co.com.cosole.lis.awx.model.awxjobresult.JobCompletationNotification;
 import co.com.cosole.lis.awx.model.extravars.RequestBodyWhitExtraVars;
 import co.com.cosole.lis.awx.model.inventories.ExtraVarsGroup;
@@ -70,6 +71,17 @@ public class ApiRest {
         return  processJobCompletionUseCase.summaryJobs(notification)
                 .map(ResponseEntity::ok);
 
+    }
+
+    @PostMapping(path ="/ping")
+    public Mono<ResponseEntity<AWXJobResult>> lunchAndPing(@RequestBody RequestBodyWhitExtraVars requestBody) {
+        LocalDateTime startTime = LocalDateTime.now();
+        return processJobCompletionUseCase.execute(JOB_TEMPLATE_PING, requestBody)
+                .map(ResponseEntity::ok)
+                .doFinally(signalType -> {
+                    Duration duration = Duration.between(startTime, LocalDateTime.now());
+                    log.info("Job finalizado. Duración total: {} segundos", duration.getSeconds());
+                });
     }
 
 

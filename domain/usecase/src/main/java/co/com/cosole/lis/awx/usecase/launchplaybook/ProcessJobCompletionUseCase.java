@@ -1,6 +1,9 @@
 package co.com.cosole.lis.awx.usecase.launchplaybook;
 
+import co.com.cosole.lis.awx.model.awxjobresult.AWXJobResult;
 import co.com.cosole.lis.awx.model.awxjobresult.JobCompletationNotification;
+import co.com.cosole.lis.awx.model.extravars.RequestBodyWhitExtraVars;
+import co.com.cosole.lis.awx.model.gateway.JobAwxGateway;
 import co.com.cosole.lis.awx.model.hoststatus.HostsStatus;
 import co.com.cosole.lis.awx.model.summary.Summary;
 import lombok.AllArgsConstructor;
@@ -15,6 +18,8 @@ import java.util.regex.Pattern;
 @AllArgsConstructor
 public class ProcessJobCompletionUseCase {
 
+
+    private JobAwxGateway jobAwxGateway;
 
     public Mono<Summary> summaryJobs(JobCompletationNotification jobCompletationNotification) {
         Summary summary = new Summary();
@@ -32,6 +37,10 @@ public class ProcessJobCompletionUseCase {
             System.out.println("IP: " + ip + ", Failed: " + status.isFailed());
         }
         return Mono.just(summary);
+    }
+
+    public Mono<AWXJobResult> execute(int jobTemplateId, RequestBodyWhitExtraVars requestBody) {
+        return jobAwxGateway.launchJob(jobTemplateId, requestBody);
     }
 
 

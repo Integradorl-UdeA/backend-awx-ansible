@@ -20,7 +20,7 @@ public class UseCasesConfig {
 
         @Bean
         public ProcessJobCompletionUseCase processJobCompletionUseCase(JobAwxGateway jobAwxGateway){
-                return new ProcessJobCompletionUseCase();
+                return new ProcessJobCompletionUseCase(jobAwxGateway);
         }
 
         @Bean
