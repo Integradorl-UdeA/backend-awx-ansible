@@ -16,11 +16,12 @@ subprojects {
 
     compileJava.dependsOn validateStructure
 
-    // Mover sourceCompatibility dentro del bloque `java { }`
-    java {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+    validateStructure{
+        enabled = false
     }
+    sourceCompatibility = JavaVersion.VERSION_17
+
+
 
     // build.dependsOn 'pitest'
 

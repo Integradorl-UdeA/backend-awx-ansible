@@ -44,5 +44,15 @@ sonar {
     }
 }
 
+
+allprojects {
+    gradle.projectsEvaluated {
+        tasks.withType(JavaCompiler).tap{
+            configureEach {
+                options.compilerArgs << '-parameters'
+            }
+        }
+    }
+}
 apply from: './main.gradle'
 
