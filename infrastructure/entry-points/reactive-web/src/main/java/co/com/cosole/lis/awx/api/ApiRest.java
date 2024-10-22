@@ -1,5 +1,6 @@
 package co.com.cosole.lis.awx.api;
 
+import co.com.cosole.lis.awx.model.extravars.RequestBodyWhitExtraVars;
 import co.com.cosole.lis.awx.model.inventories.ExtraVarsGroup;
 import co.com.cosole.lis.awx.model.inventories.GroupsInventories;
 import co.com.cosole.lis.awx.model.summary.Summary;
@@ -28,7 +29,7 @@ public class ApiRest {
     private final GetGroupInventoryLisUseCase getGroupInventoryLisUseCase;
     private final GetJobEventsUseCase getJobEventsUseCase;
 
-    private static final int JOB_TEMPLATE_PING = 12;
+    private static final int JOB_TEMPLATE_PING = 9;
 
 
     @GetMapping(path = "/{jobId}/logs")
@@ -37,23 +38,13 @@ public class ApiRest {
                 .map(ResponseEntity::ok);
     }
 
-    @PostMapping(path ="/{jobTemplateId}/launch")
-    public Mono<ResponseEntity<Summary>> lunchAndLog(@PathVariable("jobTemplateId") int jobTemplateId,
-                                                     @RequestBody ExtraVarsGroup limit) {
-        LocalDateTime startTime = LocalDateTime.now();
-        return getLogAndLaunchUseCase.execute(jobTemplateId, limit.getLimit())
-                .map(ResponseEntity::ok)
-                .doFinally(signalType -> {
-                    Duration duration = Duration.between(startTime, LocalDateTime.now());
-                    log.info("Job finalizado. Duración total: {} segundos", duration.getSeconds());
-                });
-    }
+
 
 
     @PostMapping(path ="/ping/launch")
-    public Mono<ResponseEntity<Summary>> lunchAndLogPing(@RequestBody ExtraVarsGroup limit) {
+    public Mono<ResponseEntity<Summary>> lunchAndLogPing(@RequestBody RequestBodyWhitExtraVars requestBody) {
         LocalDateTime startTime = LocalDateTime.now();
-        return getLogAndLaunchUseCase.execute(JOB_TEMPLATE_PING, limit.getLimit())
+        return getLogAndLaunchUseCase.execute(JOB_TEMPLATE_PING, requestBody)
                 .map(ResponseEntity::ok)
                 .doFinally(signalType -> {
                     Duration duration = Duration.between(startTime, LocalDateTime.now());

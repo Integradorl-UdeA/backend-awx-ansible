@@ -46,10 +46,3 @@ sonar {
 
 apply from: './main.gradle'
 
-jar {
-    manifest {
-        attributes(
-                'Main-Class': 'co.com.cosole.lis.awx.MainApplication'
-        )
-    }
-}

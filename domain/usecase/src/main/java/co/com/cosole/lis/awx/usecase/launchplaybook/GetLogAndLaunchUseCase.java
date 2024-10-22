@@ -1,5 +1,6 @@
 package co.com.cosole.lis.awx.usecase.launchplaybook;
 
+import co.com.cosole.lis.awx.model.extravars.RequestBodyWhitExtraVars;
 import co.com.cosole.lis.awx.model.gateway.JobAwxGateway;
 import co.com.cosole.lis.awx.model.hoststatus.HostStatus;
 import co.com.cosole.lis.awx.model.summary.Summary;
@@ -19,8 +20,8 @@ public class GetLogAndLaunchUseCase {
     private static final int MAX_RETRIES = 4;
     private static final Duration RETRY_INTERVAL = Duration.ofSeconds(10);
 
-    public Mono<Summary> execute(int jobTemplateId,String limit) {
-        return jobAwxGateway.launchJob(jobTemplateId, limit )
+    public Mono<Summary> execute(int jobTemplateId, RequestBodyWhitExtraVars requestBody) {
+        return jobAwxGateway.launchJob(jobTemplateId, requestBody)
                 .flatMap(jobResult -> Mono.delay(Duration.ofSeconds(20))
                         .flatMap(ignored -> waitForJobCompletion(jobResult.getJob(), 0)));
     }

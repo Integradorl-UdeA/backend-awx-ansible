@@ -18,10 +18,6 @@ public class UseCasesConfig {
                 return new GetJobLogsUseCase(jobAwxGateway);
         }
 
-        @Bean
-        public LaunchPlaybookUseCase launchPlaybookUseCase(JobAwxGateway jobAwxGateway){
-                return new LaunchPlaybookUseCase(jobAwxGateway);
-        }
 
         @Bean
         @Primary

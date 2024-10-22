@@ -3,6 +3,7 @@ package co.com.cosole.lis.awx.webclient;
 
 
 import co.com.cosole.lis.awx.model.awxjobresult.AWXJobResult;
+import co.com.cosole.lis.awx.model.extravars.RequestBodyWhitExtraVars;
 import co.com.cosole.lis.awx.model.gateway.JobAwxGateway;
 import co.com.cosole.lis.awx.model.inventories.GroupsInventories;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -28,10 +29,11 @@ public class WebClientService implements JobAwxGateway {
     private static HttpStatus statusCode;
 
     @Override
-    public Mono<AWXJobResult> launchJob(int jobTemplateId, String limit) {
+    public Mono<AWXJobResult> launchJob(int jobTemplateId, RequestBodyWhitExtraVars requestBody) {
+        log.info("si fueee {}" , requestBody.toString());
         return webClient.post()
                 .uri("job_templates/{jobTemplateId}/launch/", jobTemplateId)
-                .bodyValue(Map.of("limit",limit))
+                .bodyValue(requestBody)
                 .retrieve()
                 .bodyToMono(AWXJobResult.class)
                 .doFirst(() -> log.info("Iniciando el Job a las {} ", LocalDateTime.now()));
